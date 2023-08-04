@@ -12,7 +12,7 @@ export default function Perfil() {
   const [usuario, setUsuarioLocal] = useState({})
   
   const getUsuarioData = async () => {
-    const urlServer = "http://localhost:3000"
+    const urlServer =  "https://backend-peliculas.onrender.com"
     const endpoint = "/usuarios"
     const token = localStorage.getItem("token")
     try {
