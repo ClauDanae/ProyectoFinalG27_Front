@@ -1,0 +1,255 @@
+.color-encab {
+  background-color: rgb(47, 80, 186);
+  border: 1px solid brown;
+}
+.color-aside {
+  background-color: yellow;
+}
+
+.color-main {
+  background-color: rgb(13, 1, 71);
+}
+
+.color-tabla {
+  background-color: green;
+}
+
+.color-subtabla {
+  background-color: steelblue;
+}
+
+.color-pie {
+  background-color: brown;
+}
+
+.accordion-button {
+  padding: 2px !important;
+  text-decoration: underline;
+}
+
+.accordion-button::after {
+  background-image: none !important;
+}
+a:hover {
+  /* background-color: yellow; */
+}
+
+
+.button:hover {
+  background-color: black !important;
+  color: white !important;
+}
+
+.button-size {    
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.navlink{
+  color: black;
+  text-decoration: none;
+}
+
+.navlink:hover {
+  font-weight: bolder;
+}
+
+.active {
+  font-weight: bolder;
+  color: black;
+}
+
+.icon {
+  font-size: 25px;
+  margin-right: 4px;
+}
+
+.btn-icon{
+  margin-left: 6px;
+  font-size: 20px;
+}
+.section {
+  height: 500px;
+}
+
+.customSection {
+  display: none;
+}
+
+.customBtn:hover {
+  cursor: pointer;
+}
+
+.fuente-card{
+  font-size: 14px !important;
+}
+/* /////////Carrito//////////// */
+.carrito-icon {
+  font-size: 20px;
+  
+}
+
+.carrito {
+  width: 60%;
+  margin: 50px auto;
+  background-color: whitesmoke;
+}
+
+.carrito h3 {
+  padding: 20px 40px;
+}
+
+.carrito .items {
+  width: 90%;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+.carrito .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  margin: 10px;
+  padding: 20px;
+  background-color: white;
+}
+
+.carrito p {
+  margin: 0px;
+  text-transform: capitalize;
+}
+
+.carrito img {
+  width: 50px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+}
+
+.price-section p {
+  margin-left: 20px;
+}
+
+.add-remove {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.carrito .buy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.carrito .total-price {
+  margin: 10px;
+}
+
+.carrito .buy-btn {
+  width: 80px;
+  margin-right: 10px;
+}
+
+.carrito-vacio{
+  width: 60%;
+  margin: 50px auto;
+  padding: 50px;
+  background-color: whitesmoke;
+  text-align: center;
+  font-weight: bold;
+}
+
+.link-carrito-vacio{
+  color: brown;
+  text-decoration: none;
+}
+
+.link-carrito-vacio:hover{
+  color: rgb(228, 18, 18);
+}
+
+@media(max-width: 768px) {
+  .carrito {
+      width: 80%;
+  }
+
+  .carrito .item {
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+  }
+
+  .carrito .price-section{
+      margin-top: 15px;
+  }
+}
+/* /////////Pelicula//////////////////////// */
+.details-card-flex {
+  display: flex;
+  flex-direction: column;
+  width: 22rem;
+  margin: 50px auto 30px auto;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+}
+
+.details-card-flex img{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.details-card-flex h2{
+  text-transform: capitalize;
+}
+
+.details-card-flex p{
+  text-align: justify;
+}
+
+.details-card-flex .price-add{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-card-flex .price-add p{
+  font-size: 20px;
+  margin: 0px;
+}
+.coments{
+  width: 22rem;
+  margin: 0px auto;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+}
+
+.user-coment{
+  width: 100%;
+  height: 100px;
+}
+
+@media (min-width: 1400px) {
+  .details-card-flex {
+      display: flex;
+      flex-direction: row;
+      width: 60%;
+  }
+
+  .details-card-flex img{
+      border-top-left-radius: 5px;
+      border-top-right-radius: 0px;
+      border-bottom-left-radius: 5px;
+      width: 500px;
+  }
+
+  .coments{
+  width: 60%;
+}
+}

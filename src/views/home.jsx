@@ -2,24 +2,18 @@ import "../css/css-views/home.css"
 
 import MyCard from "../components/card"
 
-import { useContext } from "react"
+import { useContext,useState, useEffect } from "react"
 import MyContext from "../MyContext"
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
 
 const Home = () => {
-  let { movies, setMovies } = useContext(MyContext)
-  const selectGenre = (id) => {
-    setMovies((movies) =>
-      movies.map((item) => {
-        if (item.id === id) {
-          return { ...item, active: !item.active };
-        }
-        return item;
-      })
-    );
-  }
-
+  
+  let {generos, setTitulo,setAgno,idGenero,setIdGenero,getDataMovies } = useContext(MyContext)
+  
+  useEffect(() => {
+    getDataMovies();    
+  }, [idGenero]);
   return (
     <>
       <div className="d-block d-xl-flex mx-5">
@@ -27,30 +21,33 @@ const Home = () => {
           <div className="d-flex d-xl-none justify-content-evenly">
             <p className="fw-bold fs-4 me-4">Categorías</p>
             <select>
-              {movies.map((element, index) => {
+              {generos&&generos.map((element, index) => {
                 return (
-                  <option key={index} className="mb-1" value={element.genre}>
-                    {element.genre}
+                  <option key={index} className="mb-1" value={element.categoria}>
+                    {element.categoria}
                   </option>
                 )
               })}
             </select>
           </div>
         </div>
-        <div className="d-none d-xl-block mx-2 col-2">
+        <div className="d-none d-lg-block mx-2 col-2">
           <p className="fw-bold fs-4 mt-3 my-3">Categorías</p>
           <hr />
           <div>
             <ListGroup>
-              {movies.map((element, index) => {
+              {generos&&generos.map((element, index) => {
                 return (
-                  <ListGroup.Item key={index} onClick={() => selectGenre(element.id)} active={element.active} variant="secondary">
+                  <ListGroup.Item key={index}  as="button" id={element.id} variant="secondary"
+                  onClick={() => setIdGenero(element.id)} active={element.activo}
+                  >
+                    
                     <div className="ms-2 me-auto">
                       <div className="fw-bold d-flex justify-content-between">
-                        <span>{element.genre}</span>
-                        <Badge bg="primary" pill>
+                        <span>{element.categoria}</span>
+                        {/* <Badge bg="primary" pill>
                           1
-                        </Badge>
+                        </Badge> */}
                       </div>
 
                     </div>

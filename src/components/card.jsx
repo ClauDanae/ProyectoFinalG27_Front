@@ -2,19 +2,17 @@ import "../css/css-components/card.css"
 
 import { AiOutlineShoppingCart } from "react-icons/ai"
 
-import Button from "react-bootstrap/Button"
-import Card from "react-bootstrap/Card"
-
-import { useContext } from "react"
+import { useContext,useState } from "react"
 import { useNavigate } from "react-router-dom"
 import MyContext from "../MyContext"
+import { Container,Card ,Button } from "react-bootstrap"
 
 const MyCard = () => {
   const { movies, movieAdd } = useContext(MyContext)
-  const navigate = useNavigate()
+  const navigate = useNavigate()  
 
-  const toSelectedMovie = (movieName) => {
-    navigate(`/${movieName}`)
+  const toSelectedMovie = (idMovie) => {    
+    navigate(`/${idMovie}`)
   }
 
   const changeOrder = (event) => {
@@ -22,7 +20,7 @@ const MyCard = () => {
   }
 
   return (
-    <div className="container">
+    <Container>
       <div className="row mt-3 mx-5">
         <div className="">
           <span className="text-center">Ordenar por: </span>
@@ -39,20 +37,22 @@ const MyCard = () => {
         </div>
       </div>
       <div className="row mt-2 mx-5">
-        {movies.map((element) => {
+        {movies&&movies.map((element) => {
+          let img=`../assets/img/${element.id}.jpg`
+          
           return (
             <div
               key={element.id}
               className="col-12 col-md-6 col-lg-4 col-xxl-3 mt-3"
             >
               <Card style={{ width: "18rem", height: "42rem" }} className="m-auto">
-                <div onClick={() => toSelectedMovie(element.name)} className="card-img">
-                  <Card.Img variant="top" src={element.img} className="img"/>
+                <div onClick={() => toSelectedMovie(element.id)} className="card-img">
+                <a className="cursor"><Card.Img variant="top" src={img} className="img"/></a>
                 </div>
                 <Card.Body>
-                  <div onClick={() => toSelectedMovie(element.name)}>
+                  <div onClick={() => toSelectedMovie(element.id)}>
                     <Card.Title className="text-capitalize">
-                      {element.name}
+                      {element.titulo}
                     </Card.Title>
                     <hr />
                     <Card.Subtitle className="mb-3">Género</Card.Subtitle>
@@ -62,7 +62,7 @@ const MyCard = () => {
                     <hr />
                   </div>
                   <div className="d-flex justify-content-evenly align-items-center">
-                    <p className="text-center fs-5">${element.price.toLocaleString('es-CL')}</p>
+                    <p className="text-center fs-5">${element.precio.toLocaleString('es-CL')}</p>
                     <Button
                       onClick={() => movieAdd(element)}
                       variant="success"
@@ -78,7 +78,7 @@ const MyCard = () => {
           )
         })}
       </div>
-    </div>
+    </Container>
   )
 }
 

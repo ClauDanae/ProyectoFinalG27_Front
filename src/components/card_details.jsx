@@ -3,39 +3,63 @@ import "../css/css-components/card_details.css"
 import {AiOutlineShoppingCart} from "react-icons/ai"
 
 import Button from "react-bootstrap/Button"
-
+import axios from "axios";
 import {useParams} from "react-router-dom"
-import {useContext} from "react"
+import {useContext,useEffect,useState} from "react"
 import MyContext from "../MyContext"
 
 const CardDetails = () => {
-  const {movies, movieAdd} = useContext(MyContext)
+  const {movies, movieAdd,getDataMovies,idMovie,setIdMovie} = useContext(MyContext)
   const {selectedMovie} = useParams()
+  const [pelicula, setPelicula] = useState([]);
 
+  const urlServer = "http://localhost:3000";
+
+  const detallePelicula = async () => {
+    let url = `${urlServer}/pelicula/${selectedMovie}`;
+    
+    try {
+      const res = await axios.get(url);    
+      console.log(res.data)  
+      setPelicula(res.data);
+      
+    } catch (error) {
+      //setErrorMovies(error.message);
+    } finally {
+      //setLoadingMovies(false);
+    }
+  };
+  
+  useEffect(() => {   
+    detallePelicula();    
+  }, [selectedMovie]);
+  
+  
   return (
     <div>
-      {movies.map((element) => {
-        if (selectedMovie === element.name)
+      {pelicula.map((element) => {
+        //if (selectedMovie === element.name)
+          let img=`../assets/img/${element.id}.jpg`
           return (
             <div>
               <div key={element.id} className="details-card-flex">
                 <div className="img-details">
-                  <img src={element.img} alt="" />
+                  <img src={img} alt="" />
                 </div>
                 <div className="m-3">
                   <div className="d-flex justify-content-between">
-                    <h2>{element.name}</h2>
+                    <h2>{element.tituilo}</h2>
                     <h2>Puntuación</h2>
                   </div>
                   <hr />
                   <p>{element.sinopsis}</p>
                   <hr />
                   <p className="fw-bold">Género</p>
-                  <p>{element.genre}</p>
+                  <p>{element.genero}</p>
                   <hr />
                   <div className="price-add">
                     <p className="fw-bold">
-                      Precio: $<span>{element.price}</span>
+                      Precio: $<span>{element.precio}</span>
                     </p>
                     <Button
                       onClick={() => movieAdd(element)}
