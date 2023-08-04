@@ -19,7 +19,7 @@ export default function Login() {
     navigate("/perfil")
   }
   const iniciarSesion = async () => {
-    const urlServer = "http://localhost:3000"
+    const urlServer = "https://backend-peliculas.onrender.com"
     const endpoint = "/login"
     const { email, password } = usuario
     try {
