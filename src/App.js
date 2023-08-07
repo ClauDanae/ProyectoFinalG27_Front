@@ -16,7 +16,7 @@ function App() {
   const [carrito, setCarrito] = useState([])
   const [cantidad, setCantidad] = useState(0)
   
-  const urlServer = "https://backend-peliculas.onrender.com"
+  const urlServer = "http://localhost:3000"
 
   useEffect(() => {
     getDataMovies()
@@ -76,7 +76,8 @@ function App() {
     cantidad,
     setCantidad,
     movieAdd,
-    movieRemove
+    movieRemove,
+    urlServer
   }
 
   return (

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Context from "../MyContext"
 import axios from "axios";
 
 export default function Registro() {
+  const { urlServer } = useContext(Context)
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState({});
 
@@ -13,8 +15,7 @@ export default function Registro() {
   };
 
   const registrarUsuario = async () => {
-    const urlServer =  "https://backend-peliculas.onrender.com";
-    const endpoint = "/usuarios";
+    const endpoint = "/registro";
     try {
       await axios.post(urlServer + endpoint, usuario);
       alert("Usuario registrado con éxito");
@@ -32,10 +33,10 @@ export default function Registro() {
       <div className="form-group mt-1 ">
         <label>Correo electrónico</label>
         <input
-          value={usuario.email}
+          value={usuario.mail}
           onChange={handleSetUsuario}
           type="email"
-          name="email"
+          name="mail"
           className="form-control"
           placeholder="ejemplo@email.com"
         />
@@ -43,10 +44,10 @@ export default function Registro() {
       <div className="form-group mt-1 ">
         <label>Nombre</label>
         <input
-          value={usuario.name}
+          value={usuario.nombre}
           onChange={handleSetUsuario}
           type="text"
-          name="name"
+          name="nombre"
           className="form-control"
           placeholder="Nombre completo"
         />
@@ -54,10 +55,10 @@ export default function Registro() {
       <div className="form-group mt-1 ">
         <label>Dirección</label>
         <input
-          value={usuario.address}
+          value={usuario.direccion}
           onChange={handleSetUsuario}
           type="text"
-          name="address"
+          name="direccion"
           className="form-control"
           placeholder="Ingrese dirección"
         />
@@ -65,10 +66,10 @@ export default function Registro() {
       <div className="form-group mt-1 ">
         <label>Teléfono</label>
         <input
-          value={usuario.phone}
+          value={usuario.fono}
           onChange={handleSetUsuario}
           type="number"
-          name="phone"
+          name="fono"
           className="form-control"
           placeholder="912364567"
         />

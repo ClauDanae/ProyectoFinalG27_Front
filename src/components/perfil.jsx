@@ -6,13 +6,12 @@ import {useLocation} from 'react-router-dom';
 import "../css/css-views/perfil.css"
 
 export default function Perfil() {
-  const { carrito, setUsuario: setUsuarioGlobal } = useContext(Context)
+  const { urlServer, carrito, setUsuario: setUsuarioGlobal } = useContext(Context)
 
   const location = useLocation();
   const [usuario, setUsuarioLocal] = useState({})
   
   const getUsuarioData = async () => {
-    const urlServer =  "https://backend-peliculas.onrender.com"
     const endpoint = "/usuarios"
     const token = localStorage.getItem("token")
     try {
@@ -68,7 +67,7 @@ export default function Perfil() {
       <div className="mx-4">
         <div className="row text-center border rounded-top">
           <h2 className="bg-success-subtle m-0 py-3">
-            Bienvenido <span className="fw-bold">{usuario.name}</span>
+            Bienvenido <span className="fw-bold">{usuario.nombre}</span>
           </h2>
         </div>
         <div className="row">
