@@ -18,14 +18,14 @@ export default function Login() {
     const endpoint = "/login"
     const { mail, password } = usuario
     try {
-      if (!mail || !password) return alert("Email y password obligatorias")
-      
-      const { data: token } = await axios.post(urlServer + endpoint, usuario)
-      localStorage.setItem("token", token)
+      if (!mail || !password) return alert("Email y password obligatorias");
+      const { data: token } = await axios.post(urlServer + endpoint, usuario);
+      alert("Usuario identificado con éxito 😀");
+      localStorage.setItem("token", token);
       setUsuario()
-      navigate("/perfil")
-    } catch (error){
-      alert(error)
+      navigate("/perfil");
+    } catch (error) {
+      alert(error);
     }
   }
 

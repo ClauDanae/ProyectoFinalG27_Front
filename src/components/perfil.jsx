@@ -10,6 +10,7 @@ export default function Perfil() {
 
   const location = useLocation();
   const [usuario, setUsuarioLocal] = useState({})
+  console.log(usuario)
   
   const getUsuarioData = async () => {
     const endpoint = "/usuarios"
@@ -18,6 +19,7 @@ export default function Perfil() {
       const { data } = await axios.get(urlServer + endpoint, {
         headers: { Authorization: "Bearer " + token },
       })
+      console.log(data)
       setUsuarioGlobal(data)
       setUsuarioLocal(data)
     } catch { }
@@ -92,7 +94,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Correo electrónico</label>
               <input
-                value="email@gmail.com"
+                value={usuario.mail}
                 type="email"
                 name="email"
                 readonly
@@ -103,7 +105,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Nombre</label>
               <input
-                value="Nombre"
+                value={usuario.nombre}
                 type="text"
                 readonly
                 name="name"
@@ -114,7 +116,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Dirección</label>
               <input
-                value="Calle #1234"
+                value={usuario.direccion}
                 type="text"
                 readonly
                 name="address"
@@ -125,7 +127,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Teléfono</label>
               <input
-                value="5691234567"
+                value={usuario.fono}
                 type="number"
                 readonly
                 name="phone"

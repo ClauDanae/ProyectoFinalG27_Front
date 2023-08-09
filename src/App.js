@@ -15,6 +15,7 @@ function App() {
   const [price, setPrice] = useState(0)
   const [carrito, setCarrito] = useState([])
   const [cantidad, setCantidad] = useState(0)
+  const [usuario, setUsuario] = useState(null)
   
   const urlServer = "http://localhost:3000"
 
@@ -25,7 +26,6 @@ function App() {
   const getDataMovies = async () => {
     const resDataMovies = await fetch(urlServer + "/peliculas")
     const dataMovies = await resDataMovies.json()
-    console.log(dataMovies)
     setMovies(dataMovies)
   }
 
@@ -77,6 +77,8 @@ function App() {
     setCantidad,
     movieAdd,
     movieRemove,
+    usuario,
+    setUsuario,
     urlServer
   }
 
