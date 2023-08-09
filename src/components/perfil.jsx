@@ -6,19 +6,20 @@ import {useLocation} from 'react-router-dom';
 import "../css/css-views/perfil.css"
 
 export default function Perfil() {
-  const { carrito, setUsuario: setUsuarioGlobal } = useContext(Context)
+  const { urlServer, carrito, setUsuario: setUsuarioGlobal } = useContext(Context)
 
   const location = useLocation();
   const [usuario, setUsuarioLocal] = useState({})
+  console.log(usuario)
   
   const getUsuarioData = async () => {
-    const urlServer =  "https://backend-peliculas.onrender.com"
     const endpoint = "/usuarios"
     const token = localStorage.getItem("token")
     try {
       const { data } = await axios.get(urlServer + endpoint, {
         headers: { Authorization: "Bearer " + token },
       })
+      console.log(data)
       setUsuarioGlobal(data)
       setUsuarioLocal(data)
     } catch { }
@@ -68,7 +69,7 @@ export default function Perfil() {
       <div className="mx-4">
         <div className="row text-center border rounded-top">
           <h2 className="bg-success-subtle m-0 py-3">
-            Bienvenido <span className="fw-bold">{usuario.name}</span>
+            Bienvenido <span className="fw-bold">{usuario.nombre}</span>
           </h2>
         </div>
         <div className="row">
@@ -93,7 +94,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Correo electrónico</label>
               <input
-                value="email@gmail.com"
+                value={usuario.mail}
                 type="email"
                 name="email"
                 readonly
@@ -104,7 +105,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Nombre</label>
               <input
-                value="Nombre"
+                value={usuario.nombre}
                 type="text"
                 readonly
                 name="name"
@@ -115,7 +116,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Dirección</label>
               <input
-                value="Calle #1234"
+                value={usuario.direccion}
                 type="text"
                 readonly
                 name="address"
@@ -126,7 +127,7 @@ export default function Perfil() {
             <div className="form-group mt-1 ">
               <label>Teléfono</label>
               <input
-                value="5691234567"
+                value={usuario.fono}
                 type="number"
                 readonly
                 name="phone"

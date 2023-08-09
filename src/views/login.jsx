@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
 export default function Login() {
-  const { setUsuario } = useContext(Context)
+  const { urlServer, setUsuario } = useContext(Context)
   const navigate = useNavigate()
   const [usuario, setUsuarioLocal] = useState({})
 
@@ -13,24 +13,19 @@ export default function Login() {
     field[name] = value
     setUsuarioLocal({ ...usuario, ...field })
   }
-  const iniciarSesionFake = async () => {
-    const { email, password } = usuario
-    if (!email || !password) return alert("Email y password obligatorias")
-    navigate("/perfil")
-  }
+  
   const iniciarSesion = async () => {
-    const urlServer = "https://backend-peliculas.onrender.com"
     const endpoint = "/login"
-    const { email, password } = usuario
+    const { mail, password } = usuario
     try {
-      if (!email || !password) return alert("Email y password obligatorias")
-      
-      const { data: token } = await axios.post(urlServer + endpoint, usuario)
-      localStorage.setItem("token", token)
+      if (!mail || !password) return alert("Email y password obligatorias");
+      const { data: token } = await axios.post(urlServer + endpoint, usuario);
+      alert("Usuario identificado con éxito 😀");
+      localStorage.setItem("token", token);
       setUsuario()
-      navigate("/perfil")
-    } catch {
-      alert("🙁")
+      navigate("/perfil");
+    } catch (error) {
+      alert(error);
     }
   }
 
@@ -45,10 +40,10 @@ export default function Login() {
       <div className="form-group mt-1 ">
         <label>Correo electrónico</label>
         <input
-          value={usuario.email}
+          value={usuario.mail}
           onChange={handleSetUsuario}
           type="email"
-          name="email"
+          name="mail"
           className="form-control"
           placeholder="ejemplo@email.com"
         />
@@ -65,7 +60,7 @@ export default function Login() {
         />
       </div>
       <div className="d-flex justify-content-center">
-        <button onClick={iniciarSesionFake} className="btn btn-success mt-3">
+        <button onClick={iniciarSesion} className="btn btn-success mt-3">
           Iniciar Sesión
         </button>
       </div>

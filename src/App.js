@@ -15,8 +15,9 @@ function App() {
   const [price, setPrice] = useState(0)
   const [carrito, setCarrito] = useState([])
   const [cantidad, setCantidad] = useState(0)
+  const [usuario, setUsuario] = useState(null)
   
-  const urlServer = "https://backend-peliculas.onrender.com"
+  const urlServer = "http://localhost:3000"
 
   useEffect(() => {
     getDataMovies()
@@ -25,7 +26,6 @@ function App() {
   const getDataMovies = async () => {
     const resDataMovies = await fetch(urlServer + "/peliculas")
     const dataMovies = await resDataMovies.json()
-    console.log(dataMovies)
     setMovies(dataMovies)
   }
 
@@ -76,7 +76,10 @@ function App() {
     cantidad,
     setCantidad,
     movieAdd,
-    movieRemove
+    movieRemove,
+    usuario,
+    setUsuario,
+    urlServer
   }
 
   return (
