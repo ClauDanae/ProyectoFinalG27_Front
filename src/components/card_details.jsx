@@ -5,37 +5,59 @@ import {AiOutlineShoppingCart} from "react-icons/ai"
 import Button from "react-bootstrap/Button"
 
 import {useParams} from "react-router-dom"
-import {useContext} from "react"
+import {useContext,useState,useEffect} from "react"
 import MyContext from "../MyContext"
+import axios from "axios";
+
 
 const CardDetails = () => {
-  const {movies, movieAdd} = useContext(MyContext)
+  const {movies, movieAdd,urlServer} = useContext(MyContext)
   const {selectedMovie} = useParams()
+  const [pelicula, setPelicula] = useState([]);
+  const { idmovie } = useParams();
+
+
+  const detallePelicula = async () => {
+    let url = `${urlServer}/pelicula/${idmovie}`;    
+    try {
+      const res = await axios.get(url);
+
+      setPelicula(res.data);
+    } catch (error) {
+      //setErrorMovies(error.message);
+    } finally {
+      //setLoadingMovies(false);
+    }
+  };
+  useEffect(() => {
+    detallePelicula();
+  }, []);
+
 
   return (
     <div>
-      {movies.map((element) => {
-        if (selectedMovie === element.name)
+      {pelicula.map((element) => {
+        let img = `../assets/img/${element.id}.jpg`;
           return (
             <div>
               <div key={element.id} className="details-card-flex">
                 <div className="img-details">
-                  <img src={element.img} alt="" />
+                  <img src={img} alt="" />
                 </div>
                 <div className="m-3">
                   <div className="d-flex justify-content-between">
-                    <h2>{element.name}</h2>
+                    <h2>{element.titulo}</h2>
                     <h2>Puntuación</h2>
                   </div>
                   <hr />
                   <p>{element.sinopsis}</p>
                   <hr />
                   <p className="fw-bold">Género</p>
-                  <p>{element.genre}</p>
+                  <p>{element.genero}</p>
                   <hr />
                   <div className="price-add">
                     <p className="fw-bold">
-                      Precio: $<span>{element.price}</span>
+                      Precio: $<span>{element.precio}</span>
                     </p>
                     <Button
                       onClick={() => movieAdd(element)}
