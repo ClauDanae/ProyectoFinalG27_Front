@@ -5,7 +5,7 @@ import Carrito from "./views/carrito"
 import MyPerfil from "./views/perfil"
 import Login from "./views/login"
 import Registro from "./views/registro"
-
+import axios from "axios";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {useState, useEffect} from "react"
 import MyContext from "./MyContext"
@@ -16,18 +16,59 @@ function App() {
   const [carrito, setCarrito] = useState([])
   const [cantidad, setCantidad] = useState(0)
   const [usuario, setUsuario] = useState(null)
-  
+  const [idCategoria, setIdCategoria] = useState(0);
+  const [dataCateg, setDataCateg] = useState(null);
+  const [titulo, setTitulo] = useState('');
+
   const urlServer = "http://localhost:3000"
 
   useEffect(() => {
-    getDataMovies()
+    getDataMovies();
+    DataCategories();
   }, [])
 
-  const getDataMovies = async () => {
-    const resDataMovies = await fetch(urlServer + "/peliculas")
-    const dataMovies = await resDataMovies.json()
+  const DataCategories = async () => {
+    let url = `${urlServer}/categorias`;
+    console.log(url)
+    try {
+      const res = await axios.get(url);      
+      setDataCateg(res.data);
+      
+    } catch (error) {
+      //setErrorCateg(error.message);
+    } finally {
+      //setLoadingCateg(false);
+    }
+  };
+  
+
+  const getDataMovies = async (idCategoria=0,titulo='') => {
+    let url =
+      `${urlServer}/peliculas?idcategoria=${idCategoria}&agno=${0}&titulo=${titulo}&director=` +
+      `&limit=30&page=1&orderby=agno_DESC,titulo_ASC`;
+    const resDataMovies = await fetch(url)
+    const dataMovies = await resDataMovies.json()   
     setMovies(dataMovies)
   }
+
+  // const DataMovies = async () => {
+  //   const categoria = criteriosBusquedaPeliculas.idCategoria ?? 0;
+  //   const year = criteriosBusquedaPeliculas.agno;
+  //   const title = criteriosBusquedaPeliculas.titulo ?? "";
+
+  //   let url =
+  //     `${urlRaiz}peliculas?idcategoria=${categoria}&agno=${year}&titulo=${title}&director=` +
+  //     `&limit=30&page=1&orderby=agno_DESC,titulo_ASC`;
+
+  //   try {
+  //     const res = await axios.get(url);
+  //     setDataMovies(res.data);
+  //   } catch (error) {
+  //     setErrorMovies(error.message);
+  //   } finally {
+  //     setLoadingMovies(false);
+  //   }    
+  // };
 
   useEffect(() => {
     let precioTotal = 0
@@ -69,6 +110,9 @@ function App() {
   const sharedStates = {
     movies,
     setMovies,
+    getDataMovies,
+    dataCateg,
+    setDataCateg,
     price,
     setPrice,
     carrito,
@@ -89,7 +133,8 @@ function App() {
           <MyNavbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:selectedMovie" element={<Movie />} />
+            <Route path="/pelicula/:idmovie" element={<Movie />} />
+            {/* <Route path="pelicula/:selectedMovie" element={<Movie />} /> */}
             <Route path="/carrito" element={<Carrito />} />
             <Route path="/login" element={<Login />} />  
             <Route path="/registro" element={<Registro />} />          
