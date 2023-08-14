@@ -17,7 +17,7 @@ function App() {
   const [cantidad, setCantidad] = useState(0)
   const [usuario, setUsuario] = useState(null)
     
-  const urlServer = "http://localhost:3000"
+  const urlServer = "https://backend-peliculas.onrender.com"
 
   useEffect(() => {
     getDataMovies()
