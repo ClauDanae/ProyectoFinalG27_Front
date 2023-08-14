@@ -16,7 +16,7 @@ function App() {
   const [carrito, setCarrito] = useState([])
   const [cantidad, setCantidad] = useState(0)
   const [usuario, setUsuario] = useState(null)
-  
+    
   const urlServer = "http://localhost:3000"
 
   useEffect(() => {
@@ -57,12 +57,16 @@ function App() {
 
   const movieRemove = (element, index) => {
     const removedMovie = carrito.find((e) => e.id === element.id)
-    if (removedMovie.cantidad > 0) {
+    if (removedMovie.cantidad > 1) {
       removedMovie.cantidad -= 1
       setCarrito([...carrito])
     } else {
       carrito.splice(index, 1)
       setCarrito([...carrito])
+    }
+    if (carrito.length == 0){
+      setCantidad(0)
+      setPrice(0)
     }
   }
 

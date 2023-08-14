@@ -2,20 +2,26 @@ import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 import Offcanvas from "react-bootstrap/Offcanvas"
+import NavDropdown from "react-bootstrap/NavDropdown"
 import "../css/css-components/navbar.css"
 import {
   AiOutlineHome,
   AiOutlineShoppingCart,
   AiOutlineUser,
+  AiOutlineLogout,
 } from "react-icons/ai"
 
-import { NavLink } from "react-router-dom"
-import { useContext } from "react"
+import {NavLink} from "react-router-dom"
+import {useContext} from "react"
 import MyContext from "../MyContext"
 
 const MyNavbar = () => {
-  const setActiveClass = ({ isActive }) => (isActive ? "active" : undefined)
-  const { price, cantidad } = useContext(MyContext)
+  const setActiveClass = ({isActive}) => (isActive ? "active" : undefined)
+  const {price, cantidad, usuario, setUsuario} = useContext(MyContext)
+  const logout = () => {
+    setUsuario(null)
+    localStorage.removeItem("token")
+  }
 
   return (
     <>
@@ -48,13 +54,32 @@ const MyNavbar = () => {
                   <AiOutlineShoppingCart className="icon" />
                   <p>Carrito</p>
                 </NavLink>
-                <NavLink
-                  to="/login"
-                  className={`navlink ${setActiveClass} d-flex d-sm-flex p-2 align-items-center`}
-                >
-                  <AiOutlineUser className="icon" />
-                  <p>Iniciar Sesión</p>
-                </NavLink>
+                {!usuario ? (
+                  <NavLink
+                    to="/login"
+                    className={`navlink ${setActiveClass} d-flex d-sm-flex p-2 align-items-center`}
+                  >
+                    <AiOutlineUser className="icon" />
+                    <p>Iniciar Sesión</p>
+                  </NavLink>
+                ) : (
+                  <div className="d-flex">
+                    <NavLink
+                      to="/perfil"
+                      className={`navlink ${setActiveClass} d-flex d-sm-flex p-2 align-items-center`}
+                    >
+                      <AiOutlineUser className="icon" />
+                      <p>Mi perfil</p>
+                    </NavLink>
+                    <NavLink
+                      to="/"
+                      onClick={logout}
+                      className={`navlink ${setActiveClass} d-flex d-sm-flex p-2 align-items-center`}
+                    >
+                      <AiOutlineLogout className="icon" />
+                    </NavLink>
+                  </div>
+                )}
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
@@ -86,7 +111,9 @@ const MyNavbar = () => {
                   </div>
                   <div className="p-3">
                     <span>Carrito</span>
-                    <span className="ms-2">${price.toLocaleString('es-CL')}</span>
+                    <span className="ms-2">
+                      ${price.toLocaleString("es-CL")}
+                    </span>
                   </div>
                 </div>
               </NavLink>

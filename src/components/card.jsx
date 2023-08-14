@@ -5,11 +5,11 @@ import { AiOutlineShoppingCart } from "react-icons/ai"
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
 
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import MyContext from "../MyContext"
 
-const MyCard = () => {
+const MyCard = ({categoriasMovies}) => {
   const { movies, movieAdd } = useContext(MyContext)
   const navigate = useNavigate()
 
@@ -39,7 +39,7 @@ const MyCard = () => {
         </div>
       </div>
       <div className="row mt-2 mx-5">
-        {movies.map((element) => {
+        {categoriasMovies.map((element) => {
           return (
             <div
               key={element.id}

@@ -1,16 +1,57 @@
 import "../css/css-components/card_details.css"
 
 import {AiOutlineShoppingCart} from "react-icons/ai"
-
 import Button from "react-bootstrap/Button"
 
 import {useParams} from "react-router-dom"
-import {useContext} from "react"
+import {useState, useContext, useEffect} from "react"
 import MyContext from "../MyContext"
+import axios from "axios"
 
 const CardDetails = () => {
-  const {movies, movieAdd} = useContext(MyContext)
+  const {movies, movieAdd, urlServer, usuario} = useContext(MyContext)
   const {selectedMovie} = useParams()
+  const [comment, setComment] = useState("")
+  const [movieComments, setMovieComments] = useState([])
+
+  useEffect(() => {
+    getcomments()
+  }, [])
+
+  const getcomments = async () => {
+    const endopint = `/pelicula/${selectedMovie}`
+    const resDataComments = await fetch(urlServer + endopint)
+    const dataComments = await resDataComments.json()
+    setMovieComments(dataComments)
+  }
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value)
+  }
+
+  const handleAddComment = async () => {
+    const endopint = "/pelicula"
+    const selectedMovieData = movies.find(
+      (element) => element.name === selectedMovie
+    )
+
+    if (selectedMovieData) {
+      const commentData = {
+        idpelicula: selectedMovieData.id,
+        idusuario: usuario.id,
+        comentario: comment,
+      }
+
+      try {
+        await axios.post(urlServer + endopint, commentData)
+        alert("comentario agregado con éxito")
+      } catch (error) {
+        console.log(error)
+        alert("Algo salió mal ...")
+      }
+    }
+    getcomments()
+  }
 
   return (
     <div>
@@ -40,7 +81,7 @@ const CardDetails = () => {
                     <Button
                       onClick={() => movieAdd(element)}
                       variant="success"
-                      className="add text-light btn-flex"
+                      className="text-light btn-flex"
                     >
                       Añadir
                       <AiOutlineShoppingCart className="btn-icon" />
@@ -50,21 +91,41 @@ const CardDetails = () => {
               </div>
               <div className="p-3 coments">
                 <p>Comentarios</p>
-                <hr />
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. In,
-                  voluptates? Fugiat necessitatibus nostrum ea natus enim animi
-                  sint odit eius dolores.
-                </p>
+                {movieComments.map((element) => {
+                  return (
+                    <div>
+                      <hr />
+                      <p>{element.comentario} </p>
+                    </div>
+                  )
+                })}
               </div>
-              <div className="mt-3 mb-5 p-3 coments">
-                <div className="d-flex justify-content-between">
-                  <p>Valora y/o deja tu comentario</p>
-                  <p>Puntúa *insertar estrellitas"*</p>
+              {usuario ? (
+                <div className="mt-3 mb-5 p-3 coments">
+                  <div className="d-flex justify-content-between">
+                    <p>Valora y/o deja tu comentario</p>
+                    <p>Puntúa *insertar estrellitas"*</p>
+                  </div>
+                  <hr />
+                  <div className="d-flex flex-column align-items-end">
+                    <textarea
+                      value={comment}
+                      onChange={handleCommentChange}
+                      placeholder="Escribe tu comentario aquí..."
+                      className="w-100"
+                    />
+                    <Button
+                      onClick={handleAddComment}
+                      variant="success"
+                      className="mt-3 w-25"
+                    >
+                      Comentar
+                    </Button>
+                  </div>
                 </div>
-                <hr />
-                <input type="text" className="user-coment" />
-              </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           )
       })}

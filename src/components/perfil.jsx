@@ -1,28 +1,28 @@
-import { useContext, useState, useEffect } from "react"
+import {useContext, useState, useEffect} from "react"
 import Context from "../MyContext"
 import axios from "axios"
 import {Link} from "react-router-dom"
-import {useLocation} from 'react-router-dom';
+import {useLocation} from "react-router-dom"
 import "../css/css-views/perfil.css"
 
 export default function Perfil() {
-  const { urlServer, carrito, setUsuario: setUsuarioGlobal } = useContext(Context)
+  const {urlServer, carrito, setUsuario: setUsuarioGlobal} = useContext(Context)
 
-  const location = useLocation();
+  const location = useLocation()
   const [usuario, setUsuarioLocal] = useState({})
   console.log(usuario)
-  
+
   const getUsuarioData = async () => {
     const endpoint = "/usuarios"
     const token = localStorage.getItem("token")
     try {
-      const { data } = await axios.get(urlServer + endpoint, {
-        headers: { Authorization: "Bearer " + token },
+      const {data} = await axios.get(urlServer + endpoint, {
+        headers: {Authorization: "Bearer " + token},
       })
       console.log(data)
       setUsuarioGlobal(data)
       setUsuarioLocal(data)
-    } catch { }
+    } catch {}
   }
 
   useEffect(() => {
@@ -89,7 +89,6 @@ export default function Perfil() {
           </div>
         </div>
         <div id="datos" className="section border rounded-bottom row">
-
           <div className="col-10 col-sm-6 col-md-3 m-auto mt-5">
             <div className="form-group mt-1 ">
               <label>Correo electrónico</label>
@@ -160,7 +159,6 @@ export default function Perfil() {
                       <td>{element.price}</td>
                       <td>{element.cantidad}</td>
                     </tr>
-
                   )
                 })}
               </tbody>
@@ -175,8 +173,8 @@ export default function Perfil() {
                 </Link>{" "}
                 para comprar tus péliculas favoritas!
               </p>
-            </div>)}
-
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -22,7 +22,6 @@ export default function Registro() {
       navigate("/login");
     } catch (error) {
       alert("Algo salió mal ...");
-      console.log(error);
     }
   };
 

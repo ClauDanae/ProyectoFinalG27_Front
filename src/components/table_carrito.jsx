@@ -5,15 +5,10 @@ import {Button} from "react-bootstrap"
 import {useContext} from "react"
 import {Link} from "react-router-dom"
 import MyContext from "../MyContext"
-import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 const TableCarrito = () => {
-  const {carrito, price, movieAdd, movieRemove} = useContext(MyContext)
-  const navigate = useNavigate()
-
-  const historialCompra = async () => {
-    navigate("/perfil?nav=historial",{state:{section:"historial"}})
-  }
+  const {carrito, price, movieAdd, movieRemove, urlServer} = useContext(MyContext)
 
   if (price > 0)
     return (
@@ -33,12 +28,12 @@ const TableCarrito = () => {
                       <div className="me-3">
                         <p className="text-end">
                           Valor unitario
-                          <span className="ms-2">${element.price.toLocaleString('es-CL')}</span>
+                          <span className="ms-2">${element.price}</span>
                         </p>
                         <p className="text-end">
                           Total unitario:
                           <span className="ms-2">
-                            ${(element.cantidad * element.price).toLocaleString('es-CL')}
+                            ${element.cantidad * element.price}
                           </span>
                         </p>
                       </div>
@@ -63,9 +58,9 @@ const TableCarrito = () => {
           })}
           <div className="buy">
             <p className="total-price">
-              Total: $<span>{price.toLocaleString('es-CL')}</span>
+              Total: $<span>{price}</span>
             </p>
-            <Button onClick={historialCompra} variant="success" className="buy-btn">
+            <Button variant="success" className="buy-btn">
               Pagar
             </Button>
           </div>
