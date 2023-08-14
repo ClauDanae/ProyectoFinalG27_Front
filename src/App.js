@@ -5,6 +5,7 @@ import Carrito from "./views/carrito"
 import MyPerfil from "./views/perfil"
 import Login from "./views/login"
 import Registro from "./views/registro"
+import Publicar from "./views/publicar"
 
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {useState, useEffect} from "react"
@@ -16,7 +17,7 @@ function App() {
   const [carrito, setCarrito] = useState([])
   const [cantidad, setCantidad] = useState(0)
   const [usuario, setUsuario] = useState(null)
-    
+
   const urlServer = "http://localhost:3000"
 
   useEffect(() => {
@@ -64,7 +65,7 @@ function App() {
       carrito.splice(index, 1)
       setCarrito([...carrito])
     }
-    if (carrito.length == 0){
+    if (carrito.length === 0) {
       setCantidad(0)
       setPrice(0)
     }
@@ -83,26 +84,32 @@ function App() {
     movieRemove,
     usuario,
     setUsuario,
-    urlServer
+    urlServer,
+    getDataMovies,
   }
 
   return (
     <div>
-      <MyContext.Provider value={sharedStates}>
-        <BrowserRouter>
-          <MyNavbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/:selectedMovie" element={<Movie />} />
-            <Route path="/carrito" element={<Carrito />} />
-            <Route path="/login" element={<Login />} />  
-            <Route path="/registro" element={<Registro />} />          
-            <Route path="/perfil" element={<MyPerfil />} />
-          </Routes>
-        </BrowserRouter>
-      </MyContext.Provider>
+      <div>
+        <MyContext.Provider value={sharedStates}>
+          <BrowserRouter>
+            <MyNavbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/:selectedMovie" element={<Movie />} />
+              <Route path="/carrito" element={<Carrito />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Registro />} />
+              <Route path="/perfil" element={<MyPerfil />} />
+              <Route path="/publicar" element={<Publicar />} />
+            </Routes>
+          </BrowserRouter>
+        </MyContext.Provider>
+      </div>
+      <div className="mt-5">
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

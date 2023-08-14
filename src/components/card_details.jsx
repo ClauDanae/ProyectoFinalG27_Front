@@ -5,11 +5,13 @@ import Button from "react-bootstrap/Button"
 
 import {useParams} from "react-router-dom"
 import {useState, useContext, useEffect} from "react"
+import { useNavigate } from "react-router-dom"
 import MyContext from "../MyContext"
 import axios from "axios"
 
 const CardDetails = () => {
-  const {movies, movieAdd, urlServer, usuario} = useContext(MyContext)
+  const {movies, movieAdd, urlServer, usuario, getDataMovies} = useContext(MyContext)
+  const navigate = useNavigate()
   const {selectedMovie} = useParams()
   const [comment, setComment] = useState("")
   const [movieComments, setMovieComments] = useState([])
@@ -19,8 +21,8 @@ const CardDetails = () => {
   }, [])
 
   const getcomments = async () => {
-    const endopint = `/pelicula/${selectedMovie}`
-    const resDataComments = await fetch(urlServer + endopint)
+    const endpoint = `/pelicula/${selectedMovie}`
+    const resDataComments = await fetch(urlServer + endpoint)
     const dataComments = await resDataComments.json()
     setMovieComments(dataComments)
   }
@@ -30,7 +32,7 @@ const CardDetails = () => {
   }
 
   const handleAddComment = async () => {
-    const endopint = "/pelicula"
+    const endpoint = "/pelicula"
     const selectedMovieData = movies.find(
       (element) => element.name === selectedMovie
     )
@@ -43,7 +45,7 @@ const CardDetails = () => {
       }
 
       try {
-        await axios.post(urlServer + endopint, commentData)
+        await axios.post(urlServer + endpoint, commentData)
         alert("comentario agregado con éxito")
       } catch (error) {
         console.log(error)
@@ -52,6 +54,20 @@ const CardDetails = () => {
     }
     getcomments()
   }
+
+  const deleteMovie = async() => {
+    console.log(selectedMovie)
+    const endpoint = `/pelicula/${selectedMovie}`
+    try {
+      await axios.delete(urlServer + endpoint)
+      alert("Pelicula eliminada con éxito")
+      navigate("/")
+      getDataMovies()
+    } catch (error) {
+      alert("Algo salió mal ...")
+    }
+  }
+  
 
   return (
     <div>
@@ -66,7 +82,7 @@ const CardDetails = () => {
                 <div className="m-3">
                   <div className="d-flex justify-content-between">
                     <h2>{element.name}</h2>
-                    <h2>Puntuación</h2>
+                    <h2></h2>
                   </div>
                   <hr />
                   <p>{element.sinopsis}</p>
@@ -78,14 +94,25 @@ const CardDetails = () => {
                     <p className="fw-bold">
                       Precio: $<span>{element.price}</span>
                     </p>
-                    <Button
-                      onClick={() => movieAdd(element)}
-                      variant="success"
-                      className="text-light btn-flex"
-                    >
-                      Añadir
-                      <AiOutlineShoppingCart className="btn-icon" />
-                    </Button>
+                    <div className="w-50">
+                      <Button
+                        onClick={() => movieAdd(element)}
+                        variant="success"
+                        className="text-light btn-flex ms-auto"
+                      >
+                        Añadir
+                        <AiOutlineShoppingCart className="btn-icon" />
+                      </Button>
+                      {usuario && usuario.admin === true ? (
+                        <Button
+                        onClick={() => deleteMovie()}
+                          variant="warning"
+                          className="btn-flex ms-auto mt-5"
+                        >
+                          Eliminar película
+                        </Button>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -104,7 +131,7 @@ const CardDetails = () => {
                 <div className="mt-3 mb-5 p-3 coments">
                   <div className="d-flex justify-content-between">
                     <p>Valora y/o deja tu comentario</p>
-                    <p>Puntúa *insertar estrellitas"*</p>
+                    <p></p>
                   </div>
                   <hr />
                   <div className="d-flex flex-column align-items-end">

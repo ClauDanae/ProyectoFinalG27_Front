@@ -16,12 +16,16 @@ export default function Registro() {
 
   const registrarUsuario = async () => {
     const endpoint = "/registro";
-    try {
-      await axios.post(urlServer + endpoint, usuario);
-      alert("Usuario registrado con éxito");
-      navigate("/login");
-    } catch (error) {
-      alert("Algo salió mal ...");
+    if(usuario.mail && usuario.nombre && usuario.direccion && usuario.fono && usuario.password) {
+      try {
+        await axios.post(urlServer + endpoint, usuario);
+        alert("Usuario registrado con éxito");
+        navigate("/login");
+      } catch (error) {
+        alert(error.response.data);
+      }
+    }else{
+      alert("Debes llenar todos los campos")
     }
   };
 
@@ -83,19 +87,7 @@ export default function Registro() {
           className="form-control"
           placeholder="Contraseña"
         />
-      </div>
-      <div className="form-group mt-1 ">
-        <label>Repetir contraseña</label>
-        <input
-          value={usuario.password}
-          onChange={handleSetUsuario}
-          type="password"
-          name="password"
-          className="form-control"
-          placeholder="Contraseña"
-        />
-      </div>
-      
+      </div>      
       <button onClick={registrarUsuario} className="btn btn-success mt-3">
         Registrarme
       </button>

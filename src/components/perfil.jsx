@@ -6,11 +6,11 @@ import {useLocation} from "react-router-dom"
 import "../css/css-views/perfil.css"
 
 export default function Perfil() {
-  const {urlServer, carrito, setUsuario: setUsuarioGlobal} = useContext(Context)
+  const {urlServer, setUsuario: setUsuarioGlobal} = useContext(Context)
 
   const location = useLocation()
   const [usuario, setUsuarioLocal] = useState({})
-  console.log(usuario)
+  const [historial, setHistorial] = useState([])
 
   const getUsuarioData = async () => {
     const endpoint = "/usuarios"
@@ -19,16 +19,28 @@ export default function Perfil() {
       const {data} = await axios.get(urlServer + endpoint, {
         headers: {Authorization: "Bearer " + token},
       })
-      console.log(data)
       setUsuarioGlobal(data)
       setUsuarioLocal(data)
+      
     } catch {}
+  }
+
+  const getDataHistorial = async () => {
+    console.log(usuario.id)
+    const endpoint = `/historial/${usuario.id}`
+    const resDataHistorial = await fetch(urlServer + endpoint)
+    const dataHistorial = await resDataHistorial.json()
+    setHistorial(dataHistorial)
   }
 
   useEffect(() => {
     getUsuarioData()
     ActivateSeccion()
   }, [])
+  
+  useEffect(() => {
+    getDataHistorial()
+  }, [usuario])
 
   const ActivateSeccion = () => {
     if (location.state && location.state.section === "historial") {
@@ -140,22 +152,22 @@ export default function Perfil() {
           id="historial"
           className="section customSection border rounded-bottom row"
         >
-          {carrito.length > 0 ? (
+          {historial.length > 0 ? (
             <table className="table text-center">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
+                  <th scope="col">Fecha</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Precio</th>
                   <th scope="col">Cantidad</th>
                 </tr>
               </thead>
               <tbody>
-                {carrito.map((element, index) => {
+                {historial.map((element, index) => {
                   return (
                     <tr key={index}>
-                      <th scope="row">{element.id}</th>
-                      <td>{element.name}</td>
+                      <th scope="row">{element.fecha_compra}</th>
+                      <td>{element.pelicula}</td>
                       <td>{element.price}</td>
                       <td>{element.cantidad}</td>
                     </tr>
